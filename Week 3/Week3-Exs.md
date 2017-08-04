@@ -74,7 +74,7 @@ str(bVendors)
     ##  $ Cart_Descr: chr  "Two add'l tables to be added to current 6' table in U shape, with grill & warming pans, Tent" "Pushcart" "Pushcart" "Pushcart" ...
     ##  $ location  : chr  "Towson 21204\n(39.28540000000, -76.62260000000)" "Owings Mill 21117\n(39.29860000000, -76.61280000000)" "Owings Mill 21117\n(39.28920000000, -76.62670000000)" "Owings Mill 21117\n(39.28870000000, -76.61360000000)" ...
 
-### convertendo o vetor ItemsSold de cada observação para caixa baixa.
+### Convertendo o vetor ItemsSold de cada observação para caixa baixa.
 
 ``` r
 for(i in 1:NROW(bVendors$ItemsSold))
