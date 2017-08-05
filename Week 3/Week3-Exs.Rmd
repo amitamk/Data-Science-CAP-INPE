@@ -1,0 +1,79 @@
+---
+title: "Exs Week3"
+author: "Amita Muralikrishna"
+output: 
+  github_document:
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Working with Tidy Data
+
+###Fazendo download dos dados de vendedores de comida das ruas de Baltimore:
+```{r}
+vendors <- "https://data.baltimorecity.gov/api/views/bqw3-z52q/rows.csv?accessType=DOWNLOAD"
+download.file(vendors,destfile = "../BFood.csv")
+if (file.exists("../BFood.csv"))
+  {
+  tam <- file.info("../BFood.csv")$size
+  paste("File downloaded, ",tam," bytes")
+  } else
+  {
+  "Error downloading file!"
+  }
+```
+
+###Lendo e armazenando o conteúdo do arquivo baixado:
+```{r}
+bVendors <- read.csv(file="../BFood.csv", header=TRUE, sep=",", stringsAsFactors=FALSE)
+str(bVendors)
+```
+###Removendo "variables" com dados iguais para todas as observações:
+```{r}
+bVendors$Id <- NULL
+bVendors$LicenseNum <- as.factor(bVendors$LicenseNum)
+
+bVendors$St <- as.factor(bVendors$St)
+str(bVendors$St)
+
+bVendors$St <- NULL
+
+names(bVendors)[names(bVendors) == "Location.1"] <- "location"
+str(bVendors)
+```
+###Convertendo o vetor ItemsSold de cada observação para caixa baixa.
+```{r}
+for(i in 1:NROW(bVendors$ItemsSold))
+{
+  bVendors$ItemsSold[i]<-tolower(bVendors$ItemsSold[i])
+}
+bVendors$ItemsSold
+```
+###Buscando quais locais vendem "hot dog" OU "sausage" ou "franks", criando mais uma variável chamada hotdog, do tipo lógica, que armazena TRUE para locais que vendem um ou mais dos três produtos: 
+```{r}
+bVendors$hotdog <- grepl("hot dog|sausage|franks",bVendors$ItemsSold)
+head(subset(bVendors, select = c(ItemsSold,hotdog)))
+```
+###Procurando por estabelecimentos que vendem pizza:
+```{r}
+bVendors$pizza <- grepl("pizza",bVendors$ItemsSold)
+head(subset(bVendors, select = c(ItemsSold,pizza)))
+```
+###Extraindo o nome da cidade da variável location:
+```{r}
+cidades <- regmatches(bVendors$location,gregexpr("[A-Za-z]+",bVendors$location))
+cidadesNovo = vector(mode = "character", length = length(cidades))
+for(i in 1:NROW(cidades))
+{
+  if(!is.na(cidades[[i]][2])){
+    cidadesNovo [i] <- paste(cidades[[i]][1],cidades[[i]][2])
+  }
+  else cidadesNovo[i] <- cidades[[i]][1]
+}
+
+cidadesNovo
+
+```
