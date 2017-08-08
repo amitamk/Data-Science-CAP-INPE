@@ -63,6 +63,8 @@ bVendors$pizza <- grepl("pizza",bVendors$ItemsSold)
 head(subset(bVendors, select = c(ItemsSold,pizza)))
 ```
 ###Extraindo o nome da cidade da variável location:
+1) Primeira opção mais longa:
+
 ```{r}
 cidades <- regmatches(bVendors$location,gregexpr("[A-Za-z]+",bVendors$location))
 cidadesNovo = vector(mode = "character", length = length(cidades))
@@ -75,5 +77,11 @@ for(i in 1:NROW(cidades))
 }
 
 cidadesNovo
+```
 
+2) Segunda opção:
+
+```{r}
+cidades <- regmatches(bVendors$location,gregexpr("[A-Za-z]+[ ]*[A-Za-z]*",bVendors$location))
+unlist(cidades)
 ```

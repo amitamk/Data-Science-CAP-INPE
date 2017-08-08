@@ -209,6 +209,8 @@ head(subset(bVendors, select = c(ItemsSold,pizza)))
 
 ### Extraindo o nome da cidade da variável location:
 
+1.  Primeira opção mais longa:
+
 ``` r
 cidades <- regmatches(bVendors$location,gregexpr("[A-Za-z]+",bVendors$location))
 cidadesNovo = vector(mode = "character", length = length(cidades))
@@ -243,3 +245,31 @@ cidadesNovo
     ## [69] "Baltimore"    "Laurel"       "Rosedale"     "Baltimore"   
     ## [73] "Baltimore"    "Windsor Mill" "Baltimore"    "Baltimore"   
     ## [77] "Pikesville"
+
+1.  Segunda opção:
+
+``` r
+cidades <- regmatches(bVendors$location,gregexpr("[A-Za-z]+[ ]*[A-Za-z]*",bVendors$location))
+unlist(cidades)
+```
+
+    ##  [1] "Towson "       "Owings Mill"   "Owings Mill"   "Owings Mill"  
+    ##  [5] "Baltimore "    "Baltimore "    "Baltimore "    "Baltimore "   
+    ##  [9] "Baltimore "    "Baltimore "    "Baltimore "    "Laurel "      
+    ## [13] "Randallstown " "Baltimore "    "Baltimore "    "Baltimore "   
+    ## [17] "Baltimore "    "Baltimore "    "Baltimore "    "Baltimore "   
+    ## [21] "Baltimore "    "Baltimore "    "Baltimore "    "Baltimore "   
+    ## [25] "Baltimore "    "Laurel "       "Owings Mill"   "Baltimore "   
+    ## [29] "Baltimore "    "Glen Burnie"   "Baltimore "    "Middle River" 
+    ## [33] "Baltimore "    "Baltimore "    "Baltimore "    "Baltimore "   
+    ## [37] "Reisterstown " "Reisterstown " "Baltimore "    "Baltimore "   
+    ## [41] "Baltimore "    "Baltimore "    "Baltimore "    "Baltimore "   
+    ## [45] "Windsor Mill"  "Baltimore "    "Baltimore "    "Windsor Mill" 
+    ## [49] "Baltimore "    "Baltimore "    "Baltimore "    "Pikesville "  
+    ## [53] "Baltimore "    "Baltimore "    "Baltimore "    "Edgewood "    
+    ## [57] "Baltimore "    "Baltimore "    "Baltimore "    "Baltimore "   
+    ## [61] "Baltimore "    "Baltimore "    "Baltimore "    "Baltimore "   
+    ## [65] "Baltimore "    "Pasadena "     "Towson "       "Baltimore "   
+    ## [69] "Baltimore "    "Laurel "       "Rosedale "     "Baltimore "   
+    ## [73] "Baltimore "    "Windsor Mill"  "Baltimore "    "Baltimore "   
+    ## [77] "Pikesville "
